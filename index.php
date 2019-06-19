@@ -1,13 +1,23 @@
 <?php
 
 require 'vendor/autoload.php';
+$url = "https://ssw.inf.br/ws/sswColeta/index.php?wsdl";
+$client = new nusoap_client($url, 'wsdl');
 
-$x = params();
 
-function params(){
-    $url = "https://ssw.inf.br/ws/sswColeta/index.php?wsdl";
-    $client = new nusoap_client($url, 'wsdl');
-    $err = $client->getError();
+// chama a função que faz envio para webservice
+$x = params($client);
+
+//imprime retorno
+print_r ($x);
+
+/**
+ * Função que envia dados para o webservice
+ * @param object $client, instância do nusoap
+ * @return string , retorna status da chamada
+ */
+function params($client){
+
     $schema = array(
         "dominio"       => "GRT",
         "login"         => "Cesar",
