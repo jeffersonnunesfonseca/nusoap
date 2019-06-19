@@ -15,3 +15,7 @@
 ## Tudo pronto agora rodar o comando do php para enviar os dados para o webservice
 
 `php index.php`
+
+
+## mais documentação
+ - https://packagist.org/packages/econea/nusoap
