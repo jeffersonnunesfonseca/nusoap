@@ -1,15 +1,22 @@
 <?php
 
 require 'vendor/autoload.php';
-$url = "https://ssw.inf.br/ws/sswColeta/index.php?wsdl";
+$url = "https://homologacao.nfce.fazenda.pr.gov.br/nfce/NFeConsulta3?wsdl";
 $client = new nusoap_client($url, 'wsdl');
+$header = 
+'<nfeCabecMsg xmlns="http://www.portalfiscal.inf.br/sce/wsdl/NFeConsulta3">
+    <versaoDados>"3.10"</versaoDados>
+    <cUF>PR</cUF>
+</nfeCabecMsg>';
+$client->setHeaders($header);
 
 
 // chama a função que faz envio para webservice
 $x = params($client);
 
 //imprime retorno
-print_r ($x);
+echo "<pre>";
+print_r ($client);
 
 /**
  * Função que envia dados para o webservice
@@ -19,17 +26,11 @@ print_r ($x);
 function params($client){
 
     $schema = array(
-        "dominio"       => "GRT",
-        "login"         => "Cesar",
-        "senha"         => "costa",
-        "cnpjRemetente" => "05138578000122",
-        "tipoPagamento" => "O",
-        "cepEntrega"    => 81820020,
-        "solicitante"   => "Cesar",
-        "limiteColeta"  => "2019-06-18T22:00:00",
-        "quantidade"    => 1,
-        "peso"          => 10.0
+        "tpAmb"         => 2,
+        "xServ" => "CONSULTAR",
+        "chNFe" => "41190111137051013083550010005496471487876729",
+
     );
-    $result = $client->call('coletar', $schema);        
+    $result = $client->call('nfeConsultaNF3', $schema,"http://www.w3.org/2000/09/xmldsig#");        
     return $result;
 }
